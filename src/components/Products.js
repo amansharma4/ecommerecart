@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import util from '../util'
+import util from '../util';
+import '../App.css';
 class Products extends Component {
     render() {
         const productItems = this.props.products.map(product => (
@@ -7,7 +8,7 @@ class Products extends Component {
                 <div className="thumbnail text-center">
                     <a href={`#${product.id}`} onClick={(e) => this.props.handleAddToCart(e, product)}>
                         <img src={`products/${product.sku}_2.jpg`} alt={product.title} />
-                        <p>{product.title}</p>
+                        <p id="title">{product.title}</p>
                     </a>
                     <b>{util.formatCurrency(product.price)}</b>
                     <button className="btn " onClick={(e) => this.props.handleAddToCart(e, product)}>Add to cart</button>
