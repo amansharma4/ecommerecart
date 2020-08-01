@@ -11,43 +11,43 @@ class App extends Component {
       sort: "",
       cartItems: [],
       products: [],
-      filteredProducts: []
+      filteredProducts: [],
     };
   }
   componentWillMount() {
     if (localStorage.getItem("cartItems")) {
       this.setState({
-        cartItems: JSON.parse(localStorage.getItem("cartItems"))
+        cartItems: JSON.parse(localStorage.getItem("cartItems")),
       });
     }
 
     fetch("http://localhost:8000/products")
-      .then(res => res.json())
-      .catch(err =>
+      .then((res) => res.json())
+      .catch((err) =>
         fetch("db.json")
-          .then(res => res.json())
-          .then(data => data.products)
+          .then((res) => res.json())
+          .then((data) => data.products)
       )
-      .then(data => {
+      .then((data) => {
         this.setState({ products: data });
         this.listProducts();
       });
   }
 
   handleRemoveFromCart = (e, product) => {
-    this.setState(state => {
-      const cartItems = state.cartItems.filter(a => a.id !== product.id);
+    this.setState((state) => {
+      const cartItems = state.cartItems.filter((a) => a.id !== product.id);
       localStorage.setItem("cartItems", JSON.stringify(cartItems));
       return { cartItems: cartItems };
     });
   };
 
   handleAddToCart = (e, product) => {
-    this.setState(state => {
+    this.setState((state) => {
       const cartItems = state.cartItems;
       let productAlreadyInCart = false;
 
-      cartItems.forEach(cp => {
+      cartItems.forEach((cp) => {
         if (cp.id === product.id) {
           cp.count += 1;
           productAlreadyInCart = true;
@@ -62,7 +62,7 @@ class App extends Component {
     });
   };
   listProducts = () => {
-    this.setState(state => {
+    this.setState((state) => {
       if (state.sort !== "") {
         state.products.sort((a, b) =>
           state.sort === "lowestprice"
@@ -70,8 +70,8 @@ class App extends Component {
               ? 1
               : -1
             : a.price < b.price
-              ? 1
-              : -1
+            ? 1
+            : -1
         );
       } else {
         state.products.sort((a, b) => (a.id > b.id ? 1 : -1));
@@ -79,18 +79,18 @@ class App extends Component {
       if (state.size !== "") {
         return {
           filteredProducts: state.products.filter(
-            a => a.availableSizes.indexOf(state.size.toUpperCase()) >= 0
-          )
+            (a) => a.availableSizes.indexOf(state.size.toUpperCase()) >= 0
+          ),
         };
       }
       return { filteredProducts: state.products };
     });
   };
-  handleSortChange = e => {
+  handleSortChange = (e) => {
     this.setState({ sort: e.target.value });
     this.listProducts();
   };
-  handleSizeChange = e => {
+  handleSizeChange = (e) => {
     this.setState({ size: e.target.value });
     this.listProducts();
   };
@@ -120,6 +120,7 @@ class App extends Component {
             />
           </div>
         </div>
+        <div>Copyright &copy; 2020-2021</div>
       </div>
     );
   }
